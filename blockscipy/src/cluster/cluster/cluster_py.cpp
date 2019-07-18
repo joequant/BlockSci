@@ -67,6 +67,12 @@ void init_cluster_manager(pybind11::module &s) {
     .def("cluster_with_address", [](const ClusterManager &cm, const Address &address) -> Cluster {
        return cm.getCluster(address);
     }, py::arg("address"), "Return the cluster containing the given address")
+    .def("cluster_from_index", [](const ClusterManager &cm,
+				    uint32_t index) -> Cluster {
+       return cm.getClusterFromIndex(index);
+    }, py::arg("index"), "Return the cluster with the given index")
+    .def("cluster_count", &ClusterManager::getClusterCount,
+	   "Return the cluster with the given index")
     .def("clusters", [](ClusterManager &cm) -> Range<Cluster> {
         return {cm.getClusters()};
     }, "Get a list of all clusters (The list is lazy so there is no cost to calling this method)")

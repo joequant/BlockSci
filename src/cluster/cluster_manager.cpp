@@ -91,9 +91,17 @@ namespace blocksci {
     ClusterManager::~ClusterManager() = default;
     
     Cluster ClusterManager::getCluster(const Address &address) const {
-        return Cluster(access->getClusterNum(RawAddress{address.scriptNum, address.type}), *access);
+        return getClusterFromIndex(access->getClusterNum(RawAddress{address.scriptNum, address.type}));
     }
-    
+
+    Cluster ClusterManager::getClusterFromIndex(uint32_t index) const {
+        return Cluster(index, *access);
+    }
+
+    uint32_t ClusterManager::getClusterCount() const {
+        return clusterCount;
+    }
+
     ranges::any_view<Cluster, ranges::category::random_access | ranges::category::sized> ClusterManager::getClusters() const {
         return ranges::view::ints(0u, clusterCount)
         | ranges::view::transform([&](uint32_t clusterNum) { return Cluster(clusterNum, *access); });

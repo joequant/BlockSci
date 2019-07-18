@@ -37,6 +37,10 @@ namespace blocksci {
         static ClusterManager createClustering(BlockRange &chain, const std::function<ranges::any_view<Output>(const Transaction &tx)> &changeHeuristic, const std::string &outputPath, bool overwrite, bool ignoreCoinJoin);
         
         Cluster getCluster(const Address &address) const;
+
+	Cluster getClusterFromIndex(uint32_t index) const;
+
+	uint32_t getClusterCount() const;
         
         ranges::any_view<Cluster, ranges::category::random_access | ranges::category::sized> getClusters() const;
         
